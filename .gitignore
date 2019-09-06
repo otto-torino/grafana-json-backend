@@ -1,0 +1,8 @@
+.pyc
+
+.virtualenv
+__pycache__/
+
+.vimrc
+tags
+app/tags
