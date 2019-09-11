@@ -54,8 +54,7 @@ TBD
 ## Sources
 
 The application architecture provides a simple way to connect new sources to the API interface.
-The API interface calls a Source Factory (`sources/factory.py`) to retrieve an instance of a real source class, such instance depends
-on a setting configuration (now, in the future could depend on a part of the url).
+The API interface calls a Source Factory (`sources/factory.py`) to retrieve an instance of a real source class, such instance depends on a setting configuration (now, in the future could depend on a part of the url).
 
 Every source class should inherit from an `AbstractSource` class (`sources/abstract.py`) which defines the class interface.
 Every source class should implement the following methods:
