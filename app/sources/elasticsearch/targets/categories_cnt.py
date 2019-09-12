@@ -1,14 +1,22 @@
 import json
 import os
 
+from settings import ES_INDEX
+
+# load categories map from a json
 dir_path = os.path.dirname(os.path.realpath(__file__))
 with open(os.path.join(dir_path, 'categories.json')) as f:
     categories = json.load(f)
 
 
 def categories_cnt(es, from_date, to_date, query_string):
+    """ Returns the number of documents aggregated per category
+        Adds a time coordinate, choosen in the middle of the considered
+        range, because grafana likes to eat stuff which can be considered
+        a timeseries
+    """
     res = es.search(
-        index="osint",
+        index=ES_INDEX,
         body={
             "size": 0,
             "query": {

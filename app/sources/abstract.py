@@ -5,15 +5,18 @@ import six
 
 @six.add_metaclass(ABCMeta)
 class AbstractSource(object):
+    """ Abstract class from which all sources inherits 
+        It defines an interface for sources classes
+    """
     @abstractmethod
     def test(self):
         raise NotImplementedError(
-            'Source instance should define a test method')  # noqa
+            'Source instance should define a test method')
 
     @abstractmethod
     def search(self, target=None):
         raise NotImplementedError(
-            'Source instance should define a search method')  # noqa
+            'Source instance should define a search method')
 
     @abstractmethod
     def query(self,
@@ -24,4 +27,4 @@ class AbstractSource(object):
               scoped_vars={},
               filters={}):
         raise NotImplementedError(
-            'Source instance should define a query method')  # noqa
+            'Source instance should define a query method')

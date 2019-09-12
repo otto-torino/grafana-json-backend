@@ -2,7 +2,7 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS, cross_origin
 
-from settings import BASE_PATH
+from settings import BASE_PATH, HOST, PORT
 from sources.factory import SourceFactory
 
 app = Flask(__name__)
@@ -10,6 +10,8 @@ app = Flask(__name__)
 cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
 methods = ('GET', 'POST')
+
+# get the source instance
 source = SourceFactory.instance()
 
 
@@ -67,4 +69,4 @@ def annotations():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=False, host=HOST, port=PORT)

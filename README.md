@@ -2,6 +2,36 @@
 
 This is a python implementation of the backend needed by the [JSON grafana plugin](https://grafana.com/grafana/plugins/simpod-json-datasource).
 
+## Getting started
+
+Create an `.env` file which defines the following variables:
+
+    HOST=127.0.0.1
+    PORT=56733
+
+    ES_HOST=127.0.0.1
+    ES_PORT=9200
+    ES_INDEX=my_index
+    ES_USERNAME=root
+    ES_SECRET=password
+
+### Run as application
+
+Uncomment the lines in `app/settings.py` which load the `.env` file, install the requirements in a virtualenv and run the application
+
+    $ python3 -m venv .virtualenv
+    $ source .virtualenv/bin/activate
+    $ pip install -r app/requirements.txt
+    $ python app/app.py
+
+The api root is served at `http://HOST:PORT/grafana/api/`
+
+### Run with docker
+
+Launch the `start.sh` script
+
+The api root is served at `http://HOST:PORT/grafana/api/`
+
 ## API
 
 It uses flask to implement a JSON API. The following routes are served, (see `app.py`):
