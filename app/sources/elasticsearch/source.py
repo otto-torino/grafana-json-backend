@@ -1,6 +1,7 @@
 from elasticsearch import Elasticsearch
 from sources.abstract import AbstractSource
 from sources.elasticsearch.targets.categories_cnt import categories_cnt
+from sources.elasticsearch.targets.documents_raw import documents_raw
 from settings import ES_HOST, ES_PORT, ES_USERNAME, ES_SECRET
 
 # Map grafana variables to elasticsearch query_string terms
@@ -34,6 +35,7 @@ class ElasticSearchSource(AbstractSource):
     def search(self, target=None):
         return [
             'categories_cnt',
+            'documents_raw',
         ]
 
     # should return the query result
@@ -70,3 +72,5 @@ class ElasticSearchSource(AbstractSource):
         # the targets directory
         if targets[0].get('target') == 'categories_cnt':
             return categories_cnt(self.es, from_date, to_date, query_string)
+        if targets[0].get('target') == 'documents_raw':
+            return documents_raw(self.es, from_date, to_date, query_string)
