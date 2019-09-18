@@ -15,3 +15,5 @@ ES_PORT = os.getenv('ES_PORT')
 ES_INDEX = os.getenv('ES_INDEX')
 ES_USERNAME = os.getenv('ES_USERNAME')
 ES_SECRET = os.getenv('ES_SECRET')
+
+BUCKETS = 1000

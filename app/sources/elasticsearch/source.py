@@ -1,6 +1,7 @@
 from elasticsearch import Elasticsearch
 from sources.abstract import AbstractSource
 from sources.elasticsearch.targets.categories_cnt import categories_cnt
+from sources.elasticsearch.targets.categories_timeline import categories_timeline
 from sources.elasticsearch.targets.documents_raw import documents_raw
 from settings import ES_HOST, ES_PORT, ES_USERNAME, ES_SECRET
 
@@ -35,6 +36,7 @@ class ElasticSearchSource(AbstractSource):
     def search(self, target=None):
         return [
             'categories_cnt',
+            'categories_timeline',
             'documents_raw',
         ]
 
@@ -46,8 +48,8 @@ class ElasticSearchSource(AbstractSource):
               max_data_points=0,
               scoped_vars={},
               filters={}):
-        from_date = scoped_vars.get('__from').get('value')
-        to_date = scoped_vars.get('__to').get('value')
+        from_date = int(scoped_vars.get('__from').get('value'))
+        to_date = int(scoped_vars.get('__to').get('value'))
         query_parts = []
         for var in scoped_vars:
             # wont consider from, to , etc...
@@ -72,5 +74,7 @@ class ElasticSearchSource(AbstractSource):
         # the targets directory
         if targets[0].get('target') == 'categories_cnt':
             return categories_cnt(self.es, from_date, to_date, query_string)
+        if targets[0].get('target') == 'categories_timeline':
+            return categories_timeline(self.es, from_date, to_date, interval, query_string)
         if targets[0].get('target') == 'documents_raw':
             return documents_raw(self.es, from_date, to_date, query_string)

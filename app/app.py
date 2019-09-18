@@ -46,7 +46,7 @@ def search():
 def query():
     req = request.get_json()
     range = req.get('range', {})
-    interval = req.get('intervalMs', 0)
+    interval = req.get('interval', 0)
     targets = req.get('targets', [])
     max_data_points = req.get('maxDataPoints', 0)
     scoped_vars = req.get('scopedVars', {})
