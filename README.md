@@ -24,13 +24,13 @@ Uncomment the lines in `app/settings.py` which load the `.env` file, install the
     $ pip install -r app/requirements.txt
     $ python app/app.py
 
-The api root is served at `http://HOST:PORT/grafana/api/`
+The api root is served at `http://HOST:PORT/grafana/api/v1`
 
 ### Run with docker
 
 Launch the `start.sh` script
 
-The api root is served at `http://HOST:PORT/grafana/api/`
+The api root is served at `http://HOST:PORT/grafana/api/v1`
 
 ## API
 
