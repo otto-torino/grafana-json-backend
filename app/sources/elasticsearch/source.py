@@ -9,6 +9,7 @@ from sources.elasticsearch.targets.categories_timeline import \
     categories_timeline
 from sources.elasticsearch.targets.documents_raw import documents_raw
 from sources.elasticsearch.targets.documents_tot import documents_tot
+from sources.elasticsearch.targets.location import location
 
 # load categories map from a json
 dir_path = os.path.dirname(os.path.realpath(__file__))
@@ -57,6 +58,7 @@ class ElasticSearchSource(AbstractSource):
             'categories_timeline',
             'documents_tot',
             'documents_raw',
+            'location',
         ]
 
     # should return the query result
@@ -108,6 +110,8 @@ class ElasticSearchSource(AbstractSource):
         if targets[0].get('target') == 'documents_raw':
             return documents_raw(self.es, categories_dict, from_date, to_date,
                                  query_string)
+        if targets[0].get('target') == 'location':
+            return location(self.es, from_date, to_date, interval, query_string)
 
     def get_categories_list(self):
         result = []
