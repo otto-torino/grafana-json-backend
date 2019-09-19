@@ -29,11 +29,12 @@ def test_connection():
 # Is also called by the autocomplete feature of grafana,
 # in such case a target is given:
 # {'target': 'digited chars'}
+# It is also called when retrieving variables options
 @app.route(BASE_PATH + '/search', methods=methods)
 @cross_origin()
 def search():
     req = request.get_json()
-    target = req.get('target', '*')
+    target = req.get('target', None)
     return jsonify(source.search(target))
 
 

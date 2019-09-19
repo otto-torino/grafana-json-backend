@@ -1,19 +1,11 @@
-import json
-import os
-
 from settings import BUCKETS, ES_INDEX
 
-# load categories map from a json
-dir_path = os.path.dirname(os.path.realpath(__file__))
-with open(os.path.join(dir_path, 'categories.json')) as f:
-    categories = json.load(f)
 
-
-def categories_timeline(es, from_date, to_date, interval, query_string):
-    """ Returns the number of documents aggregated per category
-        Adds a time coordinate, choosen in the middle of the considered
-        range, because grafana likes to eat stuff which can be considered
-        a timeseries
+def categories_timeline(es, categories_dict, from_date, to_date, interval,
+                        query_string):
+    """ Returns the number of documents aggregated in every interval
+        per category and not
+        
     """
     interval = round((to_date - from_date) / BUCKETS)
     res = es.search(
@@ -70,15 +62,7 @@ def categories_timeline(es, from_date, to_date, interval, query_string):
             if cat.get(c.get('key')) is None:
                 cat[c.get('key')] = []
             cat[c.get('key')].append([c.get('doc_count'), b.get('key')])
-        result = [
-            {
-                'target': 'Documents',
-                'datapoints': tot
-            }
-        ]
+        result = [{'target': 'Documents', 'datapoints': tot}]
         for k, v in cat.items():
-            result.append({
-                'target': categories.get(k),
-                'datapoints': v
-            })
+            result.append({'target': categories_dict.get(k), 'datapoints': v})
     return result
