@@ -1,6 +1,21 @@
 # ElasticSearch Source
 
 
+## Available targets
+
+- `categories_cnt`: returns the number of documents per category in a point in time which is the mean of the considered range
+- `categories_timeline`: returns the timeseries of the number of documents (total and per category)
+- `documents_tot`: returns the total number of documents in a point in time which is the mean of the considered range
+- `documents_raw`: returns all the documents in the given period (as table data)
+
+## Usage with dropdown variables
+
+In the query field insert:
+
+    {"variable": "categories"}
+
+to get the list of all the categories
+
 ## Query
 
 Example of query used to retrieve a timeseries of number of documents aggregated by category and date interval of one day
