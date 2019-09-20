@@ -50,8 +50,9 @@ class ElasticSearchSource(AbstractSource):
     def search(self, target=None):
         if target:
             t = json.loads(target)
-            if t.get('variable', None) == 'categories':
-                return self.get_categories_list()
+            if t.get('variable', None) is not None:
+                # these are variables
+                return self.get_field_list(t.get('variable'))
 
         return [
             'categories_cnt',
@@ -113,16 +114,17 @@ class ElasticSearchSource(AbstractSource):
         if targets[0].get('target') == 'location':
             return location(self.es, from_date, to_date, interval, query_string)
 
-    def get_categories_list(self):
+    def get_field_list(self, field):
+        print(field)
         result = []
         res = self.es.search(
             index=ES_INDEX,
             body={
                 "size": 0,
                 "aggs": {
-                    "categories": {
+                    "field": {
                         "terms": {
-                            "field": "categories",
+                            "field": field,
                             "size": 500,
                             "order": {
                                 "_key": "asc"
@@ -132,6 +134,9 @@ class ElasticSearchSource(AbstractSource):
                 }
             })
 
-        for b in res.get('aggregations').get('categories').get('buckets'):
-            result.append(categories_dict.get(b.get('key')))
+        for b in res.get('aggregations').get("field").get('buckets'):
+            if field == 'categories':
+                result.append(categories_dict.get(b.get('key')))
+            else:
+                result.append(b.get('key'))
         return result
